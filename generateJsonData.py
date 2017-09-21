@@ -2,16 +2,21 @@ import genson
 import sys
 import random
 import string
+import msgpack
+from io import BytesIO
 
 SMALL = 10000
 MEDIUM = 500000
 LARGE = 1000000
 
-def writeToFile(filename, schema):
+def writeToFile(filename, objs):
     f = open(filename, 'w')
-    f.write(schema)
+    f.write(str(objs))
 
-def generateObjects(num):
+##
+##JSON
+##
+def generateJsonObjects(num):
     s = genson.Schema()
 
     for o in range(num):
@@ -21,7 +26,45 @@ def generateObjects(num):
 
 def generateJsonObject():
     s = genson.Schema()
-    #set up random data
+    s.add_schema(generateObject())
+    return s.to_json()
+
+
+
+##
+##MessagePack
+##
+def generateMsgpackObjects(num):
+    buf = BytesIO()
+
+    for o in range(num):
+        buf.write(generateMsgpackObject())
+
+    buf.seek(0)
+
+    print(buf.getvalue())
+    return buf.getvalue()
+
+def generateMsgpackObject():
+    o = generateObject()
+    return msgpack.packb(o)
+
+
+##
+##Protocl Buffer
+##
+def generateProtObjects(num):
+    pass
+
+def generateProtObject():
+    pass
+
+
+
+##
+##General object generation
+##
+def generateObject():
     location = generateRandomString(25)
     motionStart = generateRandomNum(10)
     motionEnd = generateRandomNum(10)
@@ -29,15 +72,15 @@ def generateJsonObject():
         motionStart, motionEnd = motionEnd, motionStart
     payload = generateRandomString(20)
     desc = generateRandomString(30)
-        
-    s.add_schema({"location": location, 
-                  "motionStart": str(motionStart),
-                  "motionEnd": str(motionEnd),
-                  "payload": payload,
-                  "description": desc})
 
-    return s.to_json()
-    
+    obj = {
+            "location": location, 
+            "motionStart": str(motionStart),
+            "motionEnd": str(motionEnd),
+            "payload": payload,
+            "description": desc
+        }
+    return obj
 
 def generateRandomString(length):
     randomString =""
@@ -53,19 +96,28 @@ def generateRandomNum(digits):
 
 
 if __name__ == "__main__":
-
-    if len(sys.argv)<4:
-        print("Please specify the amount of objects (small/medium/large) you wish to be created, and the file name")
-        print("python3 generateJsonData.py [-s | -m | -l] -f [fileName]")
+    if len(sys.argv)<5:
+        print("Please specify the amount of objects (small/medium/large) you wish to be created, the type of output (msgpack/json/protocolbuffer) and the file name")
+        print("python3 generateJsonData.py [-s | -m | -l] -f [fileName] [-msg | -json | -prot]")
+        exit(0)
     else:
-        print(sys.argv)
         if "-s" in sys.argv:
             amount = SMALL
         elif "-m" in sys.argv:
             amount = MEDIUM
         elif "-l" in sys.argv:
             amount = LARGE
+        elif "-t" in sys.argv:
+            amount = 1 #for testing
+
+        
         filename = sys.argv[sys.argv.index("-f")+1]
 
-    schema = generateObjects(amount)
-    writeToFile(filename, schema)
+    if "-msg" in sys.argv:
+        objs = generateMsgpackObjects(amount)
+    elif "-json" in sys.argv:
+        objs = generateJsonObjects(amount)
+    elif "-prot" in sys.argv:
+        objs = generateProtObjects(amount)
+
+    writeToFile(filename, objs)
