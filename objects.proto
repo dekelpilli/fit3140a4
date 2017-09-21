@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+message Object {
+    string location = 1;
+    int64 motionStart = 2;
+    int64 motionEnd = 3;
+    string payload = 4;
+    string desc = 5;
+}
+
+//A set of Objects
+message Set {
+    repeated Object objects = 1;
+}

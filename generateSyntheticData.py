@@ -4,6 +4,7 @@ import random
 import string
 import msgpack
 from io import BytesIO
+import objects_pb2
 
 SMALL = 10000
 MEDIUM = 500000
@@ -54,12 +55,29 @@ def generateMsgpackObject():
 ##Protocl Buffer
 ##
 def generateProtObjects(num):
-    pass
+    protSet =  objects_pb2.Set()
+    for o in range(num):
+        obj = generateProtObject()
+        protSet.objects.add().location = obj.location
+        protSet.objects.add().motionStart = obj.motionStart
+        protSet.objects.add().motionEnd = obj.motionEnd
+        protSet.objects.add().payload = obj.payload
+        protSet.objects.add().desc = obj.desc
+
+    return protSet.SerializeToString()
 
 def generateProtObject():
-    pass
+    protObj = objects_pb2.Object()
 
+    obj = generateObject()
+    
+    protObj.location = obj['location']
+    protObj.motionStart = int(obj['motionStart'])
+    protObj.motionEnd = int(obj['motionEnd'])
+    protObj.payload = obj['payload']
+    protObj.desc = obj['description']
 
+    return protObj
 
 ##
 ##General object generation
@@ -98,7 +116,7 @@ def generateRandomNum(digits):
 if __name__ == "__main__":
     if len(sys.argv)<5:
         print("Please specify the amount of objects (small/medium/large) you wish to be created, the type of output (msgpack/json/protocolbuffer) and the file name")
-        print("python3 generateJsonData.py [-s | -m | -l] -f [fileName] [-msg | -json | -prot]")
+        print("python3 generateSyntheticData.py [-s | -m | -l] -f [fileName] [-msg | -json | -prot]")
         exit(0)
     else:
         if "-s" in sys.argv:
