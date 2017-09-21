@@ -3,8 +3,13 @@ import sys
 import random
 import string
 
-def writeToFile(filename):
-    pass #TODO
+SMALL = 10000
+MEDIUM = 500000
+LARGE = 1000000
+
+def writeToFile(filename, schema):
+    f = open(filename, 'w')
+    f.write(schema)
 
 def generateObjects(num):
     s = genson.Schema()
@@ -35,26 +40,32 @@ def generateJsonObject():
     
 
 def generateRandomString(length):
-    string =""
+    randomString =""
     for c in range(length):
-        string += random.choice(string.ascii_letters + string.digits)
-    return string
+        randomString += random.choice(string.ascii_letters + string.digits)
+    return randomString
 
 def generateRandomNum(digits):
-    string =""
-    for c in range(length):
-        string += random.choice(string.digits)
-    return string
+    randomString =""
+    for c in range(digits):
+        randomString += random.choice(string.digits)
+    return randomString
 
 
 if __name__ == "__main__":
 
-    if len(sys.argv)<5:
-        print("Please specify the amount of objects you wish to be created, and the file name")
-        print("python3 generateJsonData.py -n [amountOfObjects] -f [fileName]")
+    if len(sys.argv)<4:
+        print("Please specify the amount of objects (small/medium/large) you wish to be created, and the file name")
+        print("python3 generateJsonData.py [-s | -m | -l] -f [fileName]")
     else:
-        amount = sys.argv[sys.argv.index("-n")+1] 
-        filename = sys.argv[sys.argv.index("-n")+1]
+        print(sys.argv)
+        if "-s" in sys.argv:
+            amount = SMALL
+        elif "-m" in sys.argv:
+            amount = MEDIUM
+        elif "-l" in sys.argv:
+            amount = LARGE
+        filename = sys.argv[sys.argv.index("-f")+1]
 
-    schema = generateObjects(amout)
-    writeToFile(filename)
+    schema = generateObjects(amount)
+    writeToFile(filename, schema)
