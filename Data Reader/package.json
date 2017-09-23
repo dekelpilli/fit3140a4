@@ -1,0 +1,23 @@
+{
+  "name": "assignment4-team2-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dataReader.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jammatpic/assignment4-team2-1.git"
+  },
+  "author": "James Pickering",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jammatpic/assignment4-team2-1/issues"
+  },
+  "homepage": "https://github.com/jammatpic/assignment4-team2-1#readme",
+  "dependencies": {
+    "express": "*",
+    "socket.io": "*"
+  }
+}
