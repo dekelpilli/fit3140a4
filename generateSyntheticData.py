@@ -13,6 +13,7 @@ LARGE = 1000000
 def writeToFile(filename, objs):
     f = open(filename, 'w')
     f.write(str(objs))
+    f.close()
 
 ##
 ##JSON
@@ -43,7 +44,6 @@ def generateMsgpackObjects(num):
 
     buf.seek(0)
 
-    print(buf.getvalue())
     return buf.getvalue()
 
 def generateMsgpackObject():
