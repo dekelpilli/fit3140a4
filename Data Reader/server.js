@@ -11,8 +11,8 @@ dataReadWrite = require('./app/dataReadWrite.js')
 app.use('/', express.static(__dirname + '/public')) 
 // routes connections
 routes(app)
-// dataReader(io, fs)
-dataReadWrite(io, fs)
+dataReadWrite(fs)
+dataReader(io, fs)
 
 
 server.listen(8080, function() {

@@ -6,30 +6,19 @@ $(document).ready(function () {
 
     iosocket.emit('start')
 
+    // server emits this before processing
     iosocket.on('start', function(data) {
         startTime = Date.now()
     })
 
-    // when server emits "message"
+    // when server emits "file"
     iosocket.on("file", function (data) {
+        // load file into array
         tempArray.push(data)
+        // get file size and transmission time, and print them
         fileSize = sizeof(data)
         const runLength = ((Date.now() - startTime)/1000).toString()
         console.log("File received in " + runLength + " seconds. " + fileSize/1000000 + "MB")
         tempArray = []
-
-        // // reports file transfer and clears array
-        // if (data == "END") {
-        //     const runLength = ((Date.now() - startTime)/1000).toString()
-        //     console.log("File received in " + runLength + " seconds. " + fileSize/1000000 + "MB")
-        //     tempArray = []
-        // // starts the timer
-        // } else if (data == "START") {
-        //     startTime = Date.now()
-        // // read each object into an array
-        // } else {
-        //     tempArray.push(data)
-        //     fileSize += sizeof(data)
-        // }
     })
 })
