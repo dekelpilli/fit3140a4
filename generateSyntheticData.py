@@ -2,7 +2,7 @@ import genson
 import sys
 import random
 import string
-import msgpack
+import msgpack-python
 from io import BytesIO
 import objects_pb2
 
@@ -57,27 +57,15 @@ def generateMsgpackObject():
 def generateProtObjects(num):
     protSet =  objects_pb2.Set()
     for o in range(num):
-        obj = generateProtObject()
-        protSet.objects.add().location = obj.location
-        protSet.objects.add().motionStart = obj.motionStart
-        protSet.objects.add().motionEnd = obj.motionEnd
-        protSet.objects.add().payload = obj.payload
-        protSet.objects.add().desc = obj.desc
+        obj = generateObject()
+        
+        protSet.objects.add().location = obj['location']
+        protSet.objects.add().motionStart = int(obj['motionStart'])
+        protSet.objects.add().motionEnd = int(obj['motionEnd'])
+        protSet.objects.add().payload = obj['payload']
+        protSet.objects.add().desc = obj['description']
 
     return protSet.SerializeToString()
-
-def generateProtObject():
-    protObj = objects_pb2.Object()
-
-    obj = generateObject()
-    
-    protObj.location = obj['location']
-    protObj.motionStart = int(obj['motionStart'])
-    protObj.motionEnd = int(obj['motionEnd'])
-    protObj.payload = obj['payload']
-    protObj.desc = obj['description']
-
-    return protObj
 
 ##
 ##General object generation
@@ -111,7 +99,6 @@ def generateRandomNum(digits):
     for c in range(digits):
         randomString += random.choice(string.digits)
     return randomString
-
 
 if __name__ == "__main__":
     if len(sys.argv)<5:
