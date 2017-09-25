@@ -34,6 +34,6 @@ Generate JSON files:
 
 
 Generate ProtocolBuffer files:  
-- `python3 generateSyntheticData.py -s -f data/protbuf_small.txt -prot` 
-- `python3 generateSyntheticData.py -m -f data/protbuf_medium.txt -prot`
-- `python3 generateSyntheticData.py -l -f data/protbuf_large.txt -prot`
+- `python3 generateSyntheticData.py -s -f data/protobuf_small.txt -prot` 
+- `python3 generateSyntheticData.py -m -f data/protobuf_medium.txt -prot`
+- `python3 generateSyntheticData.py -l -f data/protobuf_large.txt -prot`
