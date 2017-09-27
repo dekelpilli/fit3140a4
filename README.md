@@ -37,3 +37,10 @@ Generate ProtocolBuffer files:
 - `python3 generateSyntheticData.py -s -f data/protobuf_small.txt -prot` 
 - `python3 generateSyntheticData.py -m -f data/protobuf_medium.txt -prot`
 - `python3 generateSyntheticData.py -l -f data/protobuf_large.txt -prot`
+
+#### Running the server
+To run the server, enter the following commands:
+- `cd Data\ Reader/`
+- `node server.js`
+
+Once prompted, you can request the files from the client by navigating to `localhost:8080` in your browser. View the browser's console to see information about the file transfers.
