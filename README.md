@@ -9,10 +9,10 @@ Run the following:
 - `sudo pip3 install protobuf`
   
 If you make any changes to objects.proto, in addition to the appropriate changes to the python script, you'll need to install protobuf...
-<!-- - `git clone https://github.com/google/protobuf`
+- `git clone https://github.com/google/protobuf`
 - `cd protobuf/python`
 - `sudo python3 setup.py install` (this may take a while) 
-- `cd ../../` -->
+- `cd ../../`
 
 ...then run this command:  
 - `protoc --proto_path=. --python_out=. objects.proto`
